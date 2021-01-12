@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -77,7 +76,7 @@ class UserController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 "success" => false,
-                "message" => "Whoops! Invalid email or password"], 401);
+                "message" => "Invalid email or password"], 401);
         }
 
         $token = $user->createToken("token")->plainTextToken;
@@ -91,7 +90,6 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-//        Auth::user()->tokens()->where("tokenable_id", $request->user()->id)->delete();
         return response()->json([
             "token" => "Token deleted successfully"
         ], 200);
