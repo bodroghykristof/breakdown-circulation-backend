@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -87,6 +88,14 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+//        Auth::user()->tokens()->where("tokenable_id", $request->user()->id)->delete();
+        return response()->json([
+            "token" => "Token deleted successfully"
+        ], 200);
+    }
 
 
 }
