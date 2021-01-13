@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Favourite;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FavouriteController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Favourite::get(), 200);
+        $userId = $request->user()->id;
+        return response()->json(DB::table('favourites')
+            ->where('user_id', '=', $userId)
+            ->get(), 200);
     }
 
     /**
