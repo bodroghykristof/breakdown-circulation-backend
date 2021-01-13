@@ -60,11 +60,22 @@ class FavouriteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Favourite  $favourite
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function destroy(Favourite $favourite)
+    public function destroy(Request $request, int $id)
     {
-        //
+        $userId = $request->user()->id;
+        $favourite = DB::table('favourites')->where('idDrink', '=', $id);
+        if ($favourite->first()->user_id !== $userId) {
+            return response()->json([
+                "success" => false,
+                "message" => "Favourite does not correspond to user!"], 401);
+        }
+        $favourite->delete();
+        return response()->json([
+            "token" => "Favourite deleted successfully"
+        ], 200);
     }
 }
