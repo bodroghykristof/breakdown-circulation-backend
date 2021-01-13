@@ -6,6 +6,7 @@ use App\Models\Favourite;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class FavouriteController extends Controller
 {
@@ -27,11 +28,35 @@ class FavouriteController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(),
+            [
+                "idDrink" => "required|int",
+                "strDrink" => "required",
+                "strDrinkThumb" => "required"
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                "validation_errors" => $validator->errors()
+            ], 400);
+        }
+
+        $userId = $request->user()->id;
+        $favourite = $request->all();
+        $favourite['user_id'] = $userId;
+        DB::table('favourites')->insert(
+            $favourite
+        );
+
+        return response()->json([
+            "token" => "Favourite added successfully"
+        ], 200);
     }
 
     /**
@@ -64,15 +89,21 @@ class FavouriteController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $id)
+    public function destroy(Request $request, int $idDrink)
     {
         $userId = $request->user()->id;
-        $favourite = DB::table('favourites')->where('idDrink', '=', $id);
-        if ($favourite->first()->user_id !== $userId) {
+        $favourite = DB::table('favourites')
+            ->where('idDrink', '=', $idDrink)
+            ->where('user_id', '=', $userId);
+
+        $favouriteItem = $favourite->first();
+
+        if ($favouriteItem == null) {
             return response()->json([
-                "success" => false,
-                "message" => "Favourite does not correspond to user!"], 401);
+                "token" => "Favourite was not found"
+            ], 400);
         }
+
         $favourite->delete();
         return response()->json([
             "token" => "Favourite deleted successfully"
