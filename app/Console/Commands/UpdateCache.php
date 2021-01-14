@@ -61,7 +61,7 @@ class UpdateCache extends Command
         $allCocktails = array();
 
         for($i = $this->startAsciiIndex; $i <= $this->lastAsciiIndex; $i++) {
-            $cocktails = $this->getCocktailsByLetter($i);
+            $cocktails = $this->getCocktailsByLetter($i)["drinks"];
             if ($cocktails !== null) {
                 foreach($cocktails as $cocktail) {
                     array_push($allCocktails, $cocktail);
@@ -79,6 +79,6 @@ class UpdateCache extends Command
     {
         $url = $this->BASE_COCKTAIL_API_URL.chr($letterIndex);
         $cocktailsByLetter = file_get_contents($url);
-        return json_decode($cocktailsByLetter, true)["drinks"];
+        return json_decode($cocktailsByLetter, true);
     }
 }

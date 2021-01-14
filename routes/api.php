@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CocktailController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -20,16 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/redis", function () {
-    $redis = app()->make('redis');
-    return $redis->get("cocktails");
-//    error_log($redis->get($key));
-//    return $key;
-});
-
 Route::post("/register", [UserController::class, "register"]);
 Route::post("/login", [UserController::class, "login"]);
 Route::group(["middleware" => ["auth:sanctum"]], function() {
+    Route::get("/get-all-cocktails", [CocktailController::class, "getAll"]);
     Route::post("/logout", [UserController::class, "logout"]);
     Route::apiResource("/favourite", FavouriteController::class);
 });
