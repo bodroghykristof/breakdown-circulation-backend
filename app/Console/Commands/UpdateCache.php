@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -38,10 +39,11 @@ class UpdateCache extends Command
      * Execute the console command.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function handle()
     {
-        Redis::set('mykey', 'myvalue');
-        $this->info("done");
+        $redis = app()->make('redis');
+        $redis->set("time", date("H:i:s"));
     }
 }
