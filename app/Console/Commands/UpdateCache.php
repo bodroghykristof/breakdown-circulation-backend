@@ -2,13 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
 
+
+/**
+ * Class UpdateCache
+ * @package App\Console\Commands
+ */
 class UpdateCache extends Command
 {
     /**
@@ -23,12 +25,14 @@ class UpdateCache extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fetches all cocktail data from third party API';
+
+    private $BASE_COCKTAIL_API_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=';
+    private $startAsciiIndex = 97;
+    private $lastAsciiIndex = 122;
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * UpdateCache constructor.
      */
     public function __construct()
     {
@@ -45,5 +49,36 @@ class UpdateCache extends Command
     {
         $redis = app()->make('redis');
         $redis->set("time", date("H:i:s"));
+        $allCocktails = $this->getAllCocktails();
+        $redis->set("cocktails", $allCocktails);
+    }
+
+    /**
+     * @return array|false|string
+     */
+    private function getAllCocktails()
+    {
+        $allCocktails = array();
+
+        for($i = $this->startAsciiIndex; $i <= $this->lastAsciiIndex; $i++) {
+            $cocktails = $this->getCocktailsByLetter($i);
+            if ($cocktails !== null) {
+                foreach($cocktails as $cocktail) {
+                    array_push($allCocktails, $cocktail);
+                }
+            }
+        }
+        return json_encode(array("cocktails" => $allCocktails, "time" => date("H:i:s")));
+    }
+
+    /**
+     * @param int $letterIndex
+     * @return array
+     */
+    private function getCocktailsByLetter(int $letterIndex) : array
+    {
+        $url = $this->BASE_COCKTAIL_API_URL.chr($letterIndex);
+        $cocktailsByLetter = file_get_contents($url);
+        return json_decode($cocktailsByLetter, true)["drinks"];
     }
 }
