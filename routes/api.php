@@ -20,6 +20,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get("/redis/{key}", function ($key) {
+    error_log($key);
+//    $redis = new Redis();
+    $redis = app()->make('redis');
+    $redis->set($key, 'Sample value');
+    error_log($redis->get($key));
+    return $key;
+});
+
 Route::post("/register", [UserController::class, "register"]);
 Route::post("/login", [UserController::class, "login"]);
 Route::group(["middleware" => ["auth:sanctum"]], function() {
