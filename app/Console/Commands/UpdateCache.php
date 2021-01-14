@@ -48,7 +48,6 @@ class UpdateCache extends Command
     public function handle()
     {
         $redis = app()->make('redis');
-        $redis->set("time", date("H:i:s"));
         $allCocktails = $this->getAllCocktails();
         $redis->set("cocktails", $allCocktails);
     }
