@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateCache extends Command
 {
@@ -39,7 +41,7 @@ class UpdateCache extends Command
      */
     public function handle()
     {
-        DB::table('users')->delete();
-        echo "executed";
+        Redis::set('mykey', 'myvalue');
+        $this->info("done");
     }
 }
