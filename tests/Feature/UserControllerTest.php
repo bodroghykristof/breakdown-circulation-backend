@@ -3,32 +3,36 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
-
-        error_log("setup");
-
         // seed the database
-        $this->artisan('db:seed', ['--class' => 'UserSeeder']);
+        $this->artisan('db:seed');
         // alternatively you can call
         // $this->seed();
-        error_log("afterseed");
     }
+
+
 
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function test_example()
+    public function testIfUserAlreadyInDatabase()
     {
-        $user = User::factory()->count(3)->make();
-        $response = $this->json('POST', '/api/register', ['name' => 'Sally', "email" => "tomi@tomi.com", "password" => "valami"]);
+//        $user = User::factory()->count(3)->make();
+        $response = $this->json('POST', '/api/register', [
+            'name' => 'Rubie Gorczany',
+            "email" => "tillman42@example.com",
+            "password" => "password"]);
 
         $response
             ->assertStatus(409)
@@ -38,13 +42,15 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-    public function test_example1()
+    public function testRegisterNewUser()
     {
-        $response = $this->json('POST', '/api/register', ['name' => 'Sally', "email" => "tomi@9tomi.com", "password" => "valami"]);
+        $response = $this->json('POST', '/api/register', [
+            'name' => 'Rubie',
+            "email" => "till@example.com",
+            "password" => "passtill"]);
 
-        $response
-            ->assertStatus(200);
+        $response->assertStatus(200);
 
-        $this->assertArrayHasKey("data", $response);
+//        $this->assertArrayHasKey("data", $response);
     }
 }
