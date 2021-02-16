@@ -32,7 +32,6 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(),
             [
                 "idDrink" => "required|int",
