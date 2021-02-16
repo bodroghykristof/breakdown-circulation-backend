@@ -8,5 +8,4 @@ class CocktailController extends Controller
         $redis = app()->make('redis');
         return $redis->get("cocktails");
     }
-
 }
