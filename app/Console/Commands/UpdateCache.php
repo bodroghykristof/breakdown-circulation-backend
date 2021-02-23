@@ -31,6 +31,11 @@ class UpdateCache extends Command
     private $startAsciiIndex = 97;
     private $lastAsciiIndex = 122;
 
+    private $BASE_INGREDIENT_API_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?iid=';
+    private $startIngredientIndex = 1;
+    private $endIngredientIndex = 614;
+
+
     /**
      * UpdateCache constructor.
      */
@@ -51,6 +56,8 @@ class UpdateCache extends Command
         $redis->set("time", date("H:i:s"));
         $allCocktails = $this->getAllCocktails();
         $redis->set("cocktails", $allCocktails);
+        $allIngredients = $this->getAllIngredients();
+        $redis->set("ingredients", $allIngredients);
     }
 
     /**
@@ -61,24 +68,41 @@ class UpdateCache extends Command
         $allCocktails = array();
 
         for($i = $this->startAsciiIndex; $i <= $this->lastAsciiIndex; $i++) {
-            $cocktails = $this->getCocktailsByLetter($i)["drinks"];
+            $url = $this->BASE_COCKTAIL_API_URL.chr($i);
+            $cocktails = $this->getContentFromURL($url)["drinks"];
             if ($cocktails !== null) {
                 foreach($cocktails as $cocktail) {
                     array_push($allCocktails, $cocktail);
                 }
             }
         }
-        return json_encode(array("cocktails" => $allCocktails, "time" => date("H:i:s")));
+        return json_encode(array("cocktails" => $allCocktails, "time" => date("Y-m-d H:i:s")));
+    }
+
+    private function getAllIngredients()
+    {
+        $allIngredients = array();
+
+        for ($i = $this->startIngredientIndex; $i <= $this->endIngredientIndex; $i++) {
+            $url = $this->BASE_INGREDIENT_API_URL.$i;
+            $ingredients = $this->getContentFromURL($url)['ingredients'];
+            if ($ingredients !== null) {
+                foreach ($ingredients as $ingredient) {
+                    array_push($allIngredients, $ingredient);
+                }
+            }
+        }
+        return json_encode(array("ingredients" => $allIngredients, "time" => date("Y-m-d H:i:s")));
     }
 
     /**
-     * @param int $letterIndex
+     * @param string $url
      * @return array
      */
-    private function getCocktailsByLetter(int $letterIndex) : array
+    private function getContentFromURL(string $url) : array
     {
-        $url = $this->BASE_COCKTAIL_API_URL.chr($letterIndex);
         $cocktailsByLetter = file_get_contents($url);
         return json_decode($cocktailsByLetter, true);
     }
+
 }
