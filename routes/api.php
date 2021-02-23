@@ -21,7 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/get-all-cocktails", [CocktailController::class, "getAll"]);
+Route::get("/get-all-cocktails", [CocktailController::class, "getAllCocktails"]);
+Route::get("/get-all-ingredients", [CocktailController::class, "getAllIngredients"]);
+
 Route::post("/register", [UserController::class, "register"]);
 Route::post("/login", [UserController::class, "login"]);
 Route::group(["middleware" => ["auth:sanctum"]], function() {
