@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredient;
 use App\Models\OwnCocktail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,10 +32,17 @@ class OwnCocktailController extends Controller
 
             $ownCocktail = OwnCocktail::query()->create($ownCocktailData);
             $ownCocktailID = $ownCocktail->id;
-            error_log($ownCocktailID);
-//            $ingredients = $ownCocktailData['ingredients'];
+            $ingredients = $ownCocktailData['ingredients'];
 
-
+            foreach ($ingredients as $ingredient) {
+                $ingredient['own_cocktail_id'] = $ownCocktailID;
+                $savedIngredient = Ingredient::query()->create($ingredient);
+                if (is_null($savedIngredient)) {
+                    return response()->json([
+                        "success" => false,
+                        "message" => "Whoops! Failed to register. Please try again."], 400);
+                }
+            }
         } catch (\Exception $e) {
             error_log($e->getMessage());
         }
