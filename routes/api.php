@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CocktailController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\OwnCocktailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
