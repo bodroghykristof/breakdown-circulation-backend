@@ -92,6 +92,7 @@ class UpdateCache extends Command
                 }
             }
         }
+        shuffle($allIngredients);
         return json_encode(array("ingredients" => $allIngredients, "time" => date("Y-m-d H:i:s")));
     }
 
