@@ -31,4 +31,5 @@ Route::group(["middleware" => ["auth:sanctum"]], function() {
     Route::post("/logout", [UserController::class, "logout"]);
     Route::apiResource("/favourite", FavouriteController::class);
     Route::post("/save-own-cocktail", [OwnCocktailController::class, "saveOwnCocktail"]);
+    Route::get("/get-own-cocktails", [OwnCocktailController::class, "getOwnCocktails"]);
 });
