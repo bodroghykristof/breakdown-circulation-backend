@@ -10,8 +10,8 @@ class OwnCocktail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
+        'strDrink',
+        'strInstructions',
         'user_id',
     ];
 }
