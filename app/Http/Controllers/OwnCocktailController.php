@@ -6,6 +6,7 @@ use App\Models\Ingredient;
 use App\Models\OwnCocktail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class OwnCocktailController extends Controller
@@ -15,8 +16,8 @@ class OwnCocktailController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                "name" => "required",
-                "description" => "required",
+                "strDrink" => "required",
+                "strInstructions" => "required",
                 "ingredients" => "required"
             ]);
 
@@ -36,6 +37,7 @@ class OwnCocktailController extends Controller
 
             foreach ($ingredients as $ingredient) {
                 $ingredient['own_cocktail_id'] = $ownCocktailID;
+                $ingredient['user_id'] = Auth::id();
                 $savedIngredient = Ingredient::query()->create($ingredient);
                 if (is_null($savedIngredient)) {
                     return response()->json([
@@ -46,8 +48,13 @@ class OwnCocktailController extends Controller
         } catch (\Exception $e) {
             error_log($e->getMessage());
         }
+    }
 
-
-
+    public function getOwnCocktails(Request $request)
+    {
+        $userId = $request->user()->id;
+        return response()->json(DB::table('own_cocktails')
+            ->where('user_id', '=', $userId)
+            ->get(), 200);
     }
 }
