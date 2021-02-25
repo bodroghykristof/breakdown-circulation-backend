@@ -22,6 +22,7 @@ class CreateIngredientsTable extends Migration
             $table->string('strAlcohol')->nullable();
             $table->string('strABV')->nullable();
             $table->foreignId('own_cocktail_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
