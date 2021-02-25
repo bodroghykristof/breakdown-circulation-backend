@@ -17,5 +17,6 @@ class Ingredient extends Model
         'strAlcohol',
         'strABV',
         'own_cocktail_id',
+        'user_id'
     ];
 }
