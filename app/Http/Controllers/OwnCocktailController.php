@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\OwnCocktail;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +12,8 @@ use Illuminate\Support\Facades\Validator;
 
 class OwnCocktailController extends Controller
 {
-    //
-    public function saveOwnCocktail(Request $request) {
-
+    public function saveOwnCocktail(Request $request): JsonResponse
+    {
         try {
             $validator = Validator::make($request->all(), [
                 "strDrink" => "required",
@@ -39,22 +39,32 @@ class OwnCocktailController extends Controller
                 $ingredient['own_cocktail_id'] = $ownCocktailID;
                 $ingredient['user_id'] = Auth::id();
                 $savedIngredient = Ingredient::query()->create($ingredient);
+                error_log($savedIngredient);
                 if (is_null($savedIngredient)) {
                     return response()->json([
                         "success" => false,
-                        "message" => "Whoops! Failed to register. Please try again."], 400);
+                        "message" => "Whoops! Failed to save in db"], 400);
                 }
             }
+            return response()->json([
+                "success" => true], 200);
         } catch (\Exception $e) {
             error_log($e->getMessage());
         }
     }
 
-    public function getOwnCocktails(Request $request)
+    public function getOwnCocktails(Request $request): JsonResponse
     {
         $userId = $request->user()->id;
         return response()->json(DB::table('own_cocktails')
-            ->where('user_id', '=', $userId)
+            ->select('own_cocktails.id',
+                'own_cocktails.strDrink',
+                'own_cocktails.strInstructions',
+                'own_cocktails.user_id',
+                DB::raw('group_concat(distinct ingredients.strIngredient) as ingredients'))
+            ->join('ingredients', 'own_cocktails.user_id', '=', 'ingredients.user_id')
+            ->where('own_cocktails.user_id', '=', $userId)
+            ->groupBy('own_cocktails.id', 'own_cocktails.user_id', 'own_cocktails.strDrink', 'own_cocktails.strInstructions')
             ->get(), 200);
     }
 }
