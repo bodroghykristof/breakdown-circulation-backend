@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CocktailController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\OwnCocktailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,6 @@ Route::post("/login", [UserController::class, "login"]);
 Route::group(["middleware" => ["auth:sanctum"]], function() {
     Route::post("/logout", [UserController::class, "logout"]);
     Route::apiResource("/favourite", FavouriteController::class);
+    Route::post("/save-own-cocktail", [OwnCocktailController::class, "saveOwnCocktail"]);
+    Route::get("/get-own-cocktails", [OwnCocktailController::class, "getOwnCocktails"]);
 });
