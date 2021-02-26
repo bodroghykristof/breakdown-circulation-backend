@@ -47,7 +47,8 @@ class OwnCocktailController extends Controller
                 }
             }
             return response()->json([
-                "success" => true], 200);
+                "success" => true,
+                "data" => $ownCocktailID], 200);
         } catch (\Exception $e) {
             error_log($e->getMessage());
         }
@@ -57,14 +58,16 @@ class OwnCocktailController extends Controller
     {
         $userId = $request->user()->id;
         return response()->json(DB::table('own_cocktails')
-            ->select('own_cocktails.id',
+            ->select(
+                DB::raw('group_concat(distinct ingredients.strIngredient) as ingredients'),
+                'own_cocktails.id',
                 'own_cocktails.strDrink',
                 'own_cocktails.strInstructions',
-                'own_cocktails.user_id',
-                DB::raw('group_concat(distinct ingredients.strIngredient) as ingredients'))
-            ->join('ingredients', 'own_cocktails.user_id', '=', 'ingredients.user_id')
+                'own_cocktails.user_id')
+            ->join('ingredients', 'own_cocktails.id', '=', 'ingredients.own_cocktail_id')
             ->where('own_cocktails.user_id', '=', $userId)
-            ->groupBy('own_cocktails.id', 'own_cocktails.user_id', 'own_cocktails.strDrink', 'own_cocktails.strInstructions')
+            ->groupBy( 'own_cocktails.id', 'own_cocktails.strDrink', 'own_cocktails.strInstructions', 'own_cocktails.user_id')
             ->get(), 200);
+
     }
 }
