@@ -5,7 +5,7 @@
 </p>
 
 
-With this app you can search for cocktail recipes and see them on pictures. We used the Cocktail DB API. After registration and login, you can access more features like savibg your favorite cocktails and even making your own.
+With this app you can search for cocktail recipes and see them on pictures. We used the Cocktail DB API. After registration and login, you can access more features like saving your favorite cocktails and even making your own.
 
 This app is the backend part of the Cocktail Land project.
 
