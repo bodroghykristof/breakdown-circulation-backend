@@ -33,13 +33,14 @@ class OwnCocktailController extends Controller
 
             $ownCocktail = OwnCocktail::query()->create($ownCocktailData);
             $ownCocktailID = $ownCocktail->id;
+//            error_log($ownCocktailID);
             $ingredients = $ownCocktailData['ingredients'];
 
             foreach ($ingredients as $ingredient) {
-                $ingredient['own_cocktail_id'] = $ownCocktailID;
-                $ingredient['user_id'] = Auth::id();
-                $savedIngredient = Ingredient::query()->create($ingredient);
-                error_log($savedIngredient);
+                $new_ingredient['own_cocktail_id'] = $ownCocktailID;
+                $new_ingredient['own_ingredient_id'] = $ingredient;
+                $new_ingredient['user_id'] = Auth::id();
+                $savedIngredient = Ingredient::query()->create($new_ingredient);
                 if (is_null($savedIngredient)) {
                     return response()->json([
                         "success" => false,
@@ -57,17 +58,15 @@ class OwnCocktailController extends Controller
     public function getOwnCocktails(Request $request): JsonResponse
     {
         $userId = $request->user()->id;
-        return response()->json(DB::table('own_cocktails')
-            ->select(
-                DB::raw('group_concat(distinct ingredients.strIngredient) as ingredients'),
-                'own_cocktails.id',
-                'own_cocktails.strDrink',
-                'own_cocktails.strInstructions',
-                'own_cocktails.user_id')
-            ->join('ingredients', 'own_cocktails.id', '=', 'ingredients.own_cocktail_id')
-            ->where('own_cocktails.user_id', '=', $userId)
-            ->groupBy( 'own_cocktails.id', 'own_cocktails.strDrink', 'own_cocktails.strInstructions', 'own_cocktails.user_id')
-            ->get(), 200);
+
+        $own_cocktails = DB::select('SELECT strDrink,strInstructions,own_cocktails.id,
+                 GROUP_CONCAT(oi.strIngredient) AS ingredients FROM own_cocktails
+                join ingredients i on own_cocktails.id = i.own_cocktail_id
+                join own_ingredients oi on i.own_ingredient_id = oi.id
+                where own_cocktails.user_id = ?
+                group by own_cocktails.id, own_cocktails.strDrink, own_cocktails.strInstructions;', [$userId]);
+
+        return response()->json($own_cocktails, 200);
 
     }
 }
