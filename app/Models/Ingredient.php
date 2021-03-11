@@ -10,13 +10,8 @@ class Ingredient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'idIngredient',
-        'strIngredient',
-        'strDescription',
-        'strType',
-        'strAlcohol',
-        'strABV',
         'own_cocktail_id',
-        'user_id'
+        'own_ingredient_id',
+        'user_id',
     ];
 }
