@@ -51,6 +51,21 @@
             "strDescription": "Apple juice is a fruit juice made by the maceration and pressing of an apple. The resulting expelled juice may be further treated by enzymatic and centrifugal clarification to remove the starch and pectin, which holds fine particulate in suspension, and then pasteurized for packaging in glass, metal, or aseptic processing system containers, or further treated by dehydration processes to a concentrate.",
             "strABV": null
         }
+    ],
+
+    "syrup": [
+        {
+            "idIngredient": 8,
+            "strIngredient": "Sugar syrup",
+            "strDescription": "In cooking, a syrup is a condiment that is a thick, viscous liquid consisting primarily of a solution of sugar in water, containing a large amount of dissolved sugars but showing little tendency to deposit crystals. Its consistency is similar to that of molasses. The viscosity arises from the multiple hydrogen bonds between the dissolved sugar, which has many hydroxyl (OH) groups.",
+            "strABV": null
+        },
+        {
+            "idIngredient": 9,
+            "strIngredient": "Brown rice syrup",
+            "strDescription": "Brown rice (malt) syrup, also known as rice syrup or rice malt, is a sweetener which is rich in compounds categorized as sugars and is derived by steeping cooked rice starch with saccharifying enzymes to break down the starches, followed by straining off the liquid and reducing it by evaporative heating until the desired consistency is reached. The enzymes used in the saccharification step are supplied by an addition of sprouted barley grains to the rice starch (the traditional method) or by adding bacterial- or fungal-derived purified enzyme isolates (the modern, industrialized method).",
+            "strABV": null
+        }
     ]
 }
 
