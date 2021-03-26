@@ -1,0 +1,71 @@
+{
+    "fruit": [
+        {
+            "idIngredient": 1,
+            "strIngredient": "Strawberry",
+            "strDescription": "The garden strawberry is a widely grown hybrid species of the genus Fragaria, collectively known as the strawberries, which are cultivated worldwide for their fruit.",
+            "strABV": null
+        },
+        {
+            "idIngredient": 2,
+            "strIngredient": "Lime",
+            "strDescription": "A lime is a citrus fruit, which is typically round, green in color, 3–6 centimetres in diameter, and contains acidic juice vesicles.",
+            "strABV": null
+        },
+        {
+            "idIngredient": 3,
+            "strIngredient": "Ginger",
+            "strDescription": "Ginger (Zingiber officinale) is a flowering plant whose rhizome, ginger root or ginger, is widely used as a spice and a folk medicine. It is a herbaceous perennial which grows annual pseudostems (false stems made of the rolled bases of leaves) about one meter tall bearing narrow leaf blades. The inflorescences bear flowers having pale yellow petals with purple edges, and arise directly from the rhizome on separate shoots.",
+            "strABV": null
+        },
+        {
+            "idIngredient": 4,
+            "strIngredient": "Banana",
+            "strDescription": "A banana is an elongated, edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa. In some countries, bananas used for cooking may be called \"plantains\", distinguishing them from dessert bananas. The fruit is variable in size, color, and firmness, but is usually elongated and curved, with soft flesh rich in starch covered with a rind, which may be green, yellow, red, purple, or brown when ripe.",
+            "strABV": null
+        }
+    ],
+
+    "alcohol": [
+        {
+            "idIngredient": 5,
+            "strIngredient": "Scotch",
+            "strDescription": "Scotch whisky, often simply called Scotch, is malt whisky or grain whisky made in Scotland. Scotch whisky must be made in a manner specified by law.\\r\\n\\r\\nAll Scotch whisky was originally made from malted barley. Commercial distilleries began introducing whisky made from wheat and rye in the late 18th century.[2] Scotch whisky is divided into five distinct categories: single malt Scotch whisky, single grain Scotch whisky, blended malt Scotch whisky (formerly called \\\"vatted malt\\\" or \\\"pure malt\\\"), blended grain Scotch whisky, and blended Scotch whisky.\\r\\n\\r\\nAll Scotch whisky must be aged in oak barrels for at least three years. Any age statement on a bottle of Scotch whisky, expressed in numerical form, must reflect the age of the youngest whisky used to produce that product. A whisky with an age statement is known as guaranteed-age whisky.\\r\\n\\r\\nThe first written mention of Scotch whisky is in the Exchequer Rolls of Scotland, 1495. A friar named John Cor was the distiller at Lindores Abbey in the Kingdom of Fife.\\r\\n\\r\\nMany Scotch whisky drinkers will refer to a unit for drinking as a dram.",
+            "strABV": 40
+        }
+    ],
+
+    "non-alcohol": [
+        {
+            "idIngredient": 6,
+            "strIngredient": "Milk",
+            "strDescription": "Milk is a nutrient-rich liquid food produced by the mammary glands of mammals. It is the primary source of nutrition for young mammals, including breastfed human infants before they are able to digest solid food.",
+            "strABV": null
+        }
+    ],
+
+    "juice": [
+        {
+            "idIngredient": 7,
+            "strIngredient": "Apple juice",
+            "strDescription": "Apple juice is a fruit juice made by the maceration and pressing of an apple. The resulting expelled juice may be further treated by enzymatic and centrifugal clarification to remove the starch and pectin, which holds fine particulate in suspension, and then pasteurized for packaging in glass, metal, or aseptic processing system containers, or further treated by dehydration processes to a concentrate.",
+            "strABV": null
+        }
+    ],
+
+    "syrup": [
+        {
+            "idIngredient": 8,
+            "strIngredient": "Sugar syrup",
+            "strDescription": "In cooking, a syrup is a condiment that is a thick, viscous liquid consisting primarily of a solution of sugar in water, containing a large amount of dissolved sugars but showing little tendency to deposit crystals. Its consistency is similar to that of molasses. The viscosity arises from the multiple hydrogen bonds between the dissolved sugar, which has many hydroxyl (OH) groups.",
+            "strABV": null
+        },
+        {
+            "idIngredient": 9,
+            "strIngredient": "Brown rice syrup",
+            "strDescription": "Brown rice (malt) syrup, also known as rice syrup or rice malt, is a sweetener which is rich in compounds categorized as sugars and is derived by steeping cooked rice starch with saccharifying enzymes to break down the starches, followed by straining off the liquid and reducing it by evaporative heating until the desired consistency is reached. The enzymes used in the saccharification step are supplied by an addition of sprouted barley grains to the rice starch (the traditional method) or by adding bacterial- or fungal-derived purified enzyme isolates (the modern, industrialized method).",
+            "strABV": null
+        }
+    ]
+}
+
